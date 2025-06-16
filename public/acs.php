@@ -16,7 +16,11 @@ if (isset($_SESSION) && isset($_SESSION['AuthNRequestID'])) {
     $requestID = null;
 }
 
-$auth->processResponse($requestID);
+try {
+    $auth->processResponse($requestID);
+} catch (OneLogin_Saml2_ValidationError $e) {
+    die($e->getMessage());
+}
 
 $errors = $auth->getErrors();
 
